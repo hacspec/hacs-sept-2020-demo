@@ -1,8 +1,8 @@
 (function() {var implementors = {};
 implementors["hacspec_lib"] = [{"text":"impl Eq for u16Word","synthetic":false,"types":[]},{"text":"impl Eq for u32Word","synthetic":false,"types":[]},{"text":"impl Eq for u64Word","synthetic":false,"types":[]},{"text":"impl Eq for u128Word","synthetic":false,"types":[]},{"text":"impl Eq for DocPublicBytes","synthetic":false,"types":[]},{"text":"impl Eq for DocPublicArray","synthetic":false,"types":[]}];
-implementors["hacspec_poly1305"] = [{"text":"impl Eq for Tag","synthetic":false,"types":[]},{"text":"impl Eq for FieldCanvas","synthetic":false,"types":[]},{"text":"impl Eq for FieldElement","synthetic":false,"types":[]}];
 implementors["num_bigint"] = [{"text":"impl Eq for Sign","synthetic":false,"types":[]},{"text":"impl Eq for BigInt","synthetic":false,"types":[]},{"text":"impl Eq for BigUint","synthetic":false,"types":[]},{"text":"impl Eq for ParseBigIntError","synthetic":false,"types":[]}];
 implementors["num_complex"] = [{"text":"impl&lt;T:&nbsp;Eq&gt; Eq for Complex&lt;T&gt;","synthetic":false,"types":[]}];
 implementors["num_integer"] = [{"text":"impl&lt;A:&nbsp;Eq&gt; Eq for ExtendedGcd&lt;A&gt;","synthetic":false,"types":[]}];
 implementors["num_rational"] = [{"text":"impl&lt;T:&nbsp;Clone + Integer&gt; Eq for Ratio&lt;T&gt;","synthetic":false,"types":[]}];
+implementors["poly1305"] = [{"text":"impl Eq for Tag","synthetic":false,"types":[]},{"text":"impl Eq for FieldCanvas","synthetic":false,"types":[]},{"text":"impl Eq for FieldElement","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
