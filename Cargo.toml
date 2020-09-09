@@ -1,0 +1,12 @@
+[workspace]
+members = [
+    "main",
+    "hacspec-examples/hacspec-chacha20",
+    "hacspec-examples/hacspec-poly1305",
+]
+
+default-members = [
+    "main",
+    "hacspec-examples/hacspec-chacha20",
+    "hacspec-examples/hacspec-poly1305",
+]
