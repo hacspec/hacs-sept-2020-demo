@@ -4,7 +4,7 @@
 //! Let's compare RFC language with hacspec.
 //! 
 //! ### RFC
-//! ```ignore
+//! ```text
 //! 2.4.1.  The ChaCha20 Encryption Algorithm in Pseudocode
 //!
 //!     chacha20_encrypt(key, counter, nonce, plaintext):

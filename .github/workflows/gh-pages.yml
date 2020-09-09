@@ -14,7 +14,7 @@ jobs:
       - name: Build docs
         run: |
           rustup toolchain install nightly
-          cargo +nightly doc --all-features
+          cargo +nightly doc --all-features --no-deps
           touch target/doc/.nojekyll
           cat > target/doc/index.html <<EOF
           <!doctype html>
