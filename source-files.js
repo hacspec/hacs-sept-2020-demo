@@ -1,16 +1,7 @@
 var N = null;var sourcesIndex = {};
-sourcesIndex["abstract_integers"] = {"name":"","files":["abstract_int.rs","lib.rs","nat_mod.rs"]};
 sourcesIndex["chacha20"] = {"name":"","files":["chacha20.rs"]};
-sourcesIndex["chacha20_rfc7539"] = {"name":"","files":["chacha20.rs"]};
-sourcesIndex["hacspec_lib"] = {"name":"","dirs":[{"name":"math_util","files":["ct_poly.rs","ct_util.rs","mod.rs","poly.rs"]}],"files":["array.rs","bigint_integers.rs","lib.rs","machine_integers.rs","math_integers.rs","prelude.rs","seq.rs","traits.rs","transmute.rs","util.rs","vec_integers.rs","vec_integers_public.rs","vec_integers_secret.rs","vec_util.rs"]};
+sourcesIndex["chacha20poly1305"] = {"name":"","files":["chacha20poly1305.rs"]};
+sourcesIndex["chacha20poly1305_rfc7539"] = {"name":"","files":["chacha20poly1305.rs"]};
 sourcesIndex["main"] = {"name":"","files":["lib.rs"]};
-sourcesIndex["num"] = {"name":"","files":["lib.rs"]};
-sourcesIndex["num_bigint"] = {"name":"","files":["algorithms.rs","bigint.rs","biguint.rs","lib.rs","macros.rs","monty.rs"]};
-sourcesIndex["num_complex"] = {"name":"","files":["cast.rs","lib.rs","pow.rs"]};
-sourcesIndex["num_integer"] = {"name":"","files":["average.rs","lib.rs","roots.rs"]};
-sourcesIndex["num_iter"] = {"name":"","files":["lib.rs"]};
-sourcesIndex["num_rational"] = {"name":"","files":["lib.rs"]};
-sourcesIndex["num_traits"] = {"name":"","dirs":[{"name":"ops","files":["checked.rs","inv.rs","mod.rs","mul_add.rs","saturating.rs","wrapping.rs"]}],"files":["bounds.rs","cast.rs","float.rs","identities.rs","int.rs","lib.rs","macros.rs","pow.rs","real.rs","sign.rs"]};
 sourcesIndex["poly1305"] = {"name":"","files":["poly1305.rs"]};
-sourcesIndex["secret_integers"] = {"name":"","files":["lib.rs"]};
 createSourceSidebar();

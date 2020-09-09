@@ -1,7 +1,3 @@
 (function() {var implementors = {};
-implementors["num_bigint"] = [{"text":"impl PartialEq&lt;Sign&gt; for Sign","synthetic":false,"types":[]},{"text":"impl PartialEq&lt;BigInt&gt; for BigInt","synthetic":false,"types":[]},{"text":"impl PartialEq&lt;BigUint&gt; for BigUint","synthetic":false,"types":[]},{"text":"impl PartialEq&lt;ParseBigIntError&gt; for ParseBigIntError","synthetic":false,"types":[]}];
-implementors["num_complex"] = [{"text":"impl&lt;T:&nbsp;PartialEq&gt; PartialEq&lt;Complex&lt;T&gt;&gt; for Complex&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;E:&nbsp;PartialEq&gt; PartialEq&lt;ParseComplexError&lt;E&gt;&gt; for ParseComplexError&lt;E&gt;","synthetic":false,"types":[]}];
-implementors["num_integer"] = [{"text":"impl&lt;A:&nbsp;PartialEq&gt; PartialEq&lt;ExtendedGcd&lt;A&gt;&gt; for ExtendedGcd&lt;A&gt;","synthetic":false,"types":[]}];
-implementors["num_rational"] = [{"text":"impl&lt;T:&nbsp;Clone + Integer&gt; PartialEq&lt;Ratio&lt;T&gt;&gt; for Ratio&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl PartialEq&lt;ParseRatioError&gt; for ParseRatioError","synthetic":false,"types":[]}];
 implementors["poly1305"] = [{"text":"impl PartialEq&lt;Tag&gt; for Tag","synthetic":false,"types":[]},{"text":"impl PartialEq&lt;FieldCanvas&gt; for FieldCanvas","synthetic":false,"types":[]},{"text":"impl PartialEq&lt;FieldElement&gt; for FieldElement","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

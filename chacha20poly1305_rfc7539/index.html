@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `chacha20poly1305_rfc7539` crate."><meta name="keywords" content="rust, rustlang, rust-lang, chacha20poly1305_rfc7539"><title>chacha20poly1305_rfc7539 - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../ayu.css" disabled ><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../chacha20poly1305_rfc7539/index.html'><div class='logo-container rust-logo'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate chacha20poly1305_rfc7539</p><div class='block version'><p>Version 0.1.0</p></div><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all chacha20poly1305_rfc7539's items</p></a><div class="block items"><ul><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'chacha20poly1305_rfc7539', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/chacha20poly1305_rfc7539/chacha20poly1305.rs.html#1-92' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>chacha20poly1305_rfc7539</a></span></h1><div class='docblock'><p>ChaCha20Poly1305 is specified in <a href="https://tools.ietf.org/html/rfc7539">RFC 7539</a>.</p>
+<p>This version of the RFC had <a href="https://www.rfc-editor.org/errata_search.php?rfc=7539">several errata</a>, which led to the new RFC 8439.</p>
+<h2 id="issue-4371" class="section-header"><a href="#issue-4371">Issue 4371</a></h2>
+<p>We show that errata #4371 would have been caught by our typechecker.
+Details of the issue can be found <a href="https://www.rfc-editor.org/errata/eid4371">here</a>.</p>
+<p>The RFC says</p>
+<pre><code class="language-text">2.8.1.  Pseudocode for the AEAD Construction
+
+     pad16(x):
+        if (len(x) % 16)==0
+           then return NULL
+           else return copies(0, 16-(len(x)%16))
+        end
+ 
+     chacha20_aead_encrypt(aad, key, iv, constant, plaintext):
+        nonce = constant | iv
+        otk = poly1305_key_gen(key, nonce)
+        ciphertext = chacha20_encrypt(key, 1, nonce, plaintext)
+        mac_data = aad | pad16(aad)
+        mac_data |= ciphertext | pad16(ciphertext)
+        mac_data |= num_to_4_le_bytes(aad.length)
+        mac_data |= num_to_4_le_bytes(ciphertext.length)
+        tag = poly1305_mac(mac_data, otk)
+        return (ciphertext, tag)
+</code></pre>
+<p><code>num_to_4_le_bytes</code> should have been <code>num_to_8_le_bytes</code> here though.
+This is something that hacspec would have caught.
+In particular, the following would not compile (see <a href="../src/chacha20poly1305_rfc7539/chacha20poly1305.rs.html#61-62">source code</a>).</p>
+
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">
+<span class="ident">padded_msg</span> <span class="op">=</span> <span class="ident">padded_msg</span>.<span class="ident">update</span>(<span class="ident">pad_aad</span> <span class="op">+</span> <span class="ident">pad_msg</span>, <span class="kw-2">&amp;</span><span class="ident">U32_to_le_bytes</span>(<span class="ident">U64</span>(<span class="ident">laad</span> <span class="kw">as</span> <span class="ident">u64</span>)));
+<span class="ident">padded_msg</span> <span class="op">=</span> <span class="ident">padded_msg</span>.<span class="ident">update</span>(<span class="ident">pad_aad</span> <span class="op">+</span> <span class="ident">pad_msg</span> <span class="op">+</span> <span class="number">8</span>, <span class="kw-2">&amp;</span><span class="ident">U32_to_le_bytes</span>(<span class="ident">U64</span>(<span class="ident">lmsg</span> <span class="kw">as</span> <span class="ident">u64</span>)));</pre></div>
+</div><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table><tr class='module-item'><td><a class="fn" href="fn.decrypt.html" title='chacha20poly1305_rfc7539::decrypt fn'>decrypt</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="fn" href="fn.encrypt.html" title='chacha20poly1305_rfc7539::encrypt fn'>encrypt</a></td><td class='docblock-short'></td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "chacha20poly1305_rfc7539";</script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

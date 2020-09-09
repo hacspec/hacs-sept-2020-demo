@@ -1,5 +1,4 @@
 (function() {var implementors = {};
 implementors["chacha20"] = [{"text":"impl SeqTrait&lt;U32&gt; for State","synthetic":false,"types":[]},{"text":"impl SeqTrait&lt;U8&gt; for StateBytes","synthetic":false,"types":[]},{"text":"impl SeqTrait&lt;U8&gt; for IV","synthetic":false,"types":[]},{"text":"impl SeqTrait&lt;U8&gt; for Key","synthetic":false,"types":[]}];
-implementors["chacha20_rfc7539"] = [{"text":"impl SeqTrait&lt;U32&gt; for State","synthetic":false,"types":[]},{"text":"impl SeqTrait&lt;U8&gt; for StateBytes","synthetic":false,"types":[]},{"text":"impl SeqTrait&lt;U8&gt; for IV","synthetic":false,"types":[]},{"text":"impl SeqTrait&lt;U8&gt; for Key","synthetic":false,"types":[]}];
 implementors["poly1305"] = [{"text":"impl SeqTrait&lt;U8&gt; for Block","synthetic":false,"types":[]},{"text":"impl SeqTrait&lt;u8&gt; for Tag","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

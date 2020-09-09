@@ -3,23 +3,23 @@
 <h2 id="rfc-vs-hacspec" class="section-header"><a href="#rfc-vs-hacspec">RFC vs hacspec</a></h2>
 <p>Let's compare RFC language with hacspec.</p>
 <h3 id="rfc" class="section-header"><a href="#rfc">RFC</a></h3>
-<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">
-<span class="number">2.4</span>.<span class="number">1.</span>  <span class="ident">The</span> <span class="ident">ChaCha20</span> <span class="ident">Encryption</span> <span class="ident">Algorithm</span> <span class="kw">in</span> <span class="ident">Pseudocode</span>
+<pre><code class="language-text">2.4.1.  The ChaCha20 Encryption Algorithm in Pseudocode
 
-    <span class="ident">chacha20_encrypt</span>(<span class="ident">key</span>, <span class="ident">counter</span>, <span class="ident">nonce</span>, <span class="ident">plaintext</span>):
-       <span class="kw">for</span> <span class="ident">j</span> <span class="op">=</span> <span class="number">0</span> <span class="ident">upto</span> <span class="ident">floor</span>(<span class="ident">len</span>(<span class="ident">plaintext</span>)<span class="op">/</span><span class="number">64</span>)<span class="op">-</span><span class="number">1</span>
-          <span class="ident">key_stream</span> <span class="op">=</span> <span class="ident">chacha20_block</span>(<span class="ident">key</span>, <span class="ident">counter</span><span class="op">+</span><span class="ident">j</span>, <span class="ident">nonce</span>)
-          <span class="ident">block</span> <span class="op">=</span> <span class="ident">plaintext</span>[(<span class="ident">j</span><span class="kw-2">*</span><span class="number">64</span>)..(<span class="ident">j</span><span class="kw-2">*</span><span class="number">64</span><span class="op">+</span><span class="number">63</span>)]
-          <span class="ident">encrypted_message</span> <span class="op">+</span><span class="op">=</span>  <span class="ident">block</span> <span class="op">^</span> <span class="ident">key_stream</span>
-          <span class="ident">end</span>
-       <span class="kw">if</span> ((<span class="ident">len</span>(<span class="ident">plaintext</span>) <span class="op">%</span> <span class="number">64</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>)
-          <span class="ident">j</span> <span class="op">=</span> <span class="ident">floor</span>(<span class="ident">len</span>(<span class="ident">plaintext</span>)<span class="op">/</span><span class="number">64</span>)
-          <span class="ident">key_stream</span> <span class="op">=</span> <span class="ident">chacha20_block</span>(<span class="ident">key</span>, <span class="ident">counter</span><span class="op">+</span><span class="ident">j</span>, <span class="ident">nonce</span>)
-          <span class="ident">block</span> <span class="op">=</span> <span class="ident">plaintext</span>[(<span class="ident">j</span><span class="kw-2">*</span><span class="number">64</span>)..<span class="ident">len</span>(<span class="ident">plaintext</span>)<span class="op">-</span><span class="number">1</span>]
-          <span class="ident">encrypted_message</span> <span class="op">+</span><span class="op">=</span> (<span class="ident">block</span><span class="op">^</span><span class="ident">key_stream</span>)[<span class="number">0</span>..<span class="ident">len</span>(<span class="ident">plaintext</span>)<span class="op">%</span><span class="number">64</span>]
-          <span class="ident">end</span>
-       <span class="kw">return</span> <span class="ident">encrypted_message</span>
-       <span class="ident">end</span></pre></div>
+    chacha20_encrypt(key, counter, nonce, plaintext):
+       for j = 0 upto floor(len(plaintext)/64)-1
+          key_stream = chacha20_block(key, counter+j, nonce)
+          block = plaintext[(j*64)..(j*64+63)]
+          encrypted_message +=  block ^ key_stream
+          end
+       if ((len(plaintext) % 64) != 0)
+          j = floor(len(plaintext)/64)
+          key_stream = chacha20_block(key, counter+j, nonce)
+          block = plaintext[(j*64)..len(plaintext)-1]
+          encrypted_message += (block^key_stream)[0..len(plaintext)%64]
+          end
+       return encrypted_message
+       end
+</code></pre>
 <h3 id="hacspec" class="section-header"><a href="#hacspec">hacspec</a></h3>
 <div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">chacha</span>(<span class="ident">key</span>: <span class="ident">Key</span>, <span class="ident">iv</span>: <span class="ident">IV</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">ByteSeq</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ByteSeq</span> {
