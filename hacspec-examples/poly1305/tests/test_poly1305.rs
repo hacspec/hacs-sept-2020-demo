@@ -1,8 +1,8 @@
 use hacspec_dev::prelude::*;
 use hacspec_lib::prelude::*;
 
-use hacspec_chacha20::*;
-use hacspec_poly1305::*;
+use chacha20::*;
+use poly1305::*;
 
 #[test]
 fn basic_test() {

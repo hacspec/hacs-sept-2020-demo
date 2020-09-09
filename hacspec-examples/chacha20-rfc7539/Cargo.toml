@@ -1,0 +1,14 @@
+[package]
+name = "chacha20-rfc7539"
+version = "0.1.0"
+authors = ["Denis Merigoux <denis.merigoux@gmail.com>"]
+edition = "2018"
+
+[lib]
+path = "chacha20.rs"
+
+[dependencies]
+hacspec-lib = { git = "https://github.com/hacspec/hacspec/", branch = "fstar-compiler-more" }
+
+[dev-dependencies]
+hacspec-dev = { git = "https://github.com/hacspec/hacspec/", branch = "fstar-compiler-more" }

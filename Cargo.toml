@@ -1,12 +1,14 @@
 [workspace]
 members = [
     "main",
-    "hacspec-examples/hacspec-chacha20",
-    "hacspec-examples/hacspec-poly1305",
+    "hacspec-examples/chacha20",
+    "hacspec-examples/chacha20-rfc7539",
+    "hacspec-examples/poly1305",
 ]
 
 default-members = [
     "main",
-    "hacspec-examples/hacspec-chacha20",
-    "hacspec-examples/hacspec-poly1305",
+    "hacspec-examples/chacha20",
+    "hacspec-examples/chacha20-rfc7539",
+    "hacspec-examples/poly1305",
 ]

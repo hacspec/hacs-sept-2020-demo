@@ -1,7 +1,7 @@
 use hacspec_dev::prelude::*;
 use hacspec_lib::prelude::*;
 
-use hacspec_chacha20::*;
+use chacha20_rfc7539::*;
 
 #[test]
 fn test_quarter_round() {

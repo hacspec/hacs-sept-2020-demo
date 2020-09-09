@@ -2,7 +2,7 @@
 use hacspec_lib::*;
 
 // Import chacha20
-use hacspec_chacha20::*;
+use chacha20::*;
 
 const BLOCKSIZE: usize = 16;
 // Type definitions for use in poly1305.

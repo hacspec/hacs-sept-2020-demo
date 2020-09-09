@@ -13,5 +13,5 @@
 //! 
 //! ## Demo Specs
 //! The demo specs are in separate crates:
-//! * [ChaCha20 hacspec](../hacspec_chacha20/index.html)
-//! * [Poly1305 hacspec](../hacspec_poly1305/index.html)
+//! * [ChaCha20 hacspec](../chacha20/index.html)
+//! * [Poly1305 hacspec](../poly1305/index.html)
