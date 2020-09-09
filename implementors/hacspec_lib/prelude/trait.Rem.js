@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["hacspec_lib"] = [{"text":"impl Rem&lt;U16Word&gt; for U16Word","synthetic":false,"types":[]},{"text":"impl Rem&lt;U32Word&gt; for U32Word","synthetic":false,"types":[]},{"text":"impl Rem&lt;U64Word&gt; for U64Word","synthetic":false,"types":[]},{"text":"impl Rem&lt;U128Word&gt; for U128Word","synthetic":false,"types":[]},{"text":"impl Rem&lt;DocSecretBytes&gt; for DocSecretBytes","synthetic":false,"types":[]},{"text":"impl Rem&lt;DocSecretArray&gt; for DocSecretArray","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

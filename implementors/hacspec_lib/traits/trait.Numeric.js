@@ -1,0 +1,4 @@
+(function() {var implementors = {};
+implementors["hacspec_chacha20"] = [{"text":"impl Numeric for State","synthetic":false,"types":[]},{"text":"impl Numeric for StateBytes","synthetic":false,"types":[]},{"text":"impl Numeric for IV","synthetic":false,"types":[]},{"text":"impl Numeric for Key","synthetic":false,"types":[]}];
+implementors["hacspec_poly1305"] = [{"text":"impl Numeric for Block","synthetic":false,"types":[]},{"text":"impl Numeric for Tag","synthetic":false,"types":[]},{"text":"impl Numeric for FieldCanvas","synthetic":false,"types":[]},{"text":"impl Numeric for FieldElement","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
