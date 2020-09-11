@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `main` crate."><meta name="keywords" content="rust, rustlang, rust-lang, main"><title>main - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../ayu.css" disabled ><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../main/index.html'><div class='logo-container rust-logo'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate main</p><div class='block version'><p>Version 0.1.0</p></div><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all main's items</p></a><p class='location'></p><script>window.sidebarCurrent = {name: 'main', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
-                <a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/main/lib.rs.html#1-17' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>main</a></span></h1><div class='docblock'><p>This is a demo of hacspec for the HACS workshop on September 22.</p>
+                <a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/main/lib.rs.html#1-55' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>main</a></span></h1><div class='docblock'><p>This is a demo of hacspec for the HACS workshop on September 22.</p>
 <h2 id="overview" class="section-header"><a href="#overview">Overview</a></h2>
 <p>There are 5 separate parts to this demo.</p>
 <ol>
@@ -11,10 +11,35 @@ equivalence for one function</li>
 <li>Present formal semantics for hacspec that enables us to do all of the
 above in a sound way.</li>
 </ol>
+<h3 id="setup" class="section-header"><a href="#setup">Setup</a></h3>
+<p>The typechecker requires a Rust nightly compiler and additional Rust components.</p>
+<pre><code class="language-bash">rustup toolchain install nightly
+rustup component add --toolchain nightly rustc-dev
+rustup component add --toolchain nightly llvm-tools-preview
+</code></pre>
+<p>To install the typechecker and compiler run:</p>
+<pre><code class="language-bash">cargo +nightly install --git https://github.com/hacspec/hacspec --branch fstar-compiler-more hacspec
+</code></pre>
+<p>To run the <code>hacspec</code> command you might also have to set the library path, e.g.</p>
+<pre><code class="language-bash">export DYLD_LIBRARY_PATH=$(rustc --print sysroot)/lib
+</code></pre>
+<p><strong>Windows:</strong> note that this hasn't been tested on Windows.</p>
 <h2 id="demo-specs" class="section-header"><a href="#demo-specs">Demo Specs</a></h2>
 <p>The demo specs are in separate crates:</p>
 <ul>
 <li><a href="../chacha20/index.html">ChaCha20 hacspec</a></li>
 <li><a href="../poly1305/index.html">Poly1305 hacspec</a></li>
+<li><a href="../chacha20poly1305/index.html">ChaCha20Poly1305 hacspec</a></li>
+<li><a href="../poly_demo/index.html">Polynomial arithmetic</a></li>
 </ul>
+<h3 id="running-tests-on-the-spec" class="section-header"><a href="#running-tests-on-the-spec">Running tests on the spec</a></h3>
+<p>Each spec has tests in the tests folder.
+They can be run with <code>cargo test</code> in the top level directory or each
+individual crate.</p>
+<h3 id="typecheck-specs" class="section-header"><a href="#typecheck-specs">Typecheck specs</a></h3>
+<p>To ensure that a spec is compliant with the hacspec language the <a href="https://github.com/hacspec/hacspec/tree/master/hacspec">typechecker</a>
+can be used.
+The typechecker also outputs F* code.</p>
+<pre><code class="language-bash">hacspec -L $PWD/target/debug/deps/ -L $PWD/../hacspec/target/debug/deps --crate-type=lib --edition=2018 --extern=hacspec_lib -o ChaCha20.fst hacspec-examples/chacha20/chacha20.rs
+</code></pre>
 </div></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "main";</script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
