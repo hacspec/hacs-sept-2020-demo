@@ -37,7 +37,7 @@
 //! * [ChaCha20 hacspec](../chacha20/index.html)
 //! * [Poly1305 hacspec](../poly1305/index.html)
 //! * [ChaCha20Poly1305 hacspec](../chacha20poly1305/index.html)
-//! * [Polynomial arithmetic](../poly-demo/index.html)
+//! * [Polynomial arithmetic](../poly_demo/index.html)
 //!
 //! ### Running tests on the spec
 //! Each spec has tests in the tests folder.

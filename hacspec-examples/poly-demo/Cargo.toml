@@ -1,0 +1,11 @@
+[package]
+name = "poly-demo"
+version = "0.1.0"
+authors = ["Franziskus Kiefer <franziskuskiefer@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+hacspec-lib = { git = "https://github.com/hacspec/hacspec/", branch = "fstar-compiler-more" }
+
+[dev-dependencies]
+hacspec-dev = { git = "https://github.com/hacspec/hacspec/", branch = "fstar-compiler-more" }
