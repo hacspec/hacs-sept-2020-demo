@@ -31,11 +31,22 @@
 //! 
 //! `num_to_4_le_bytes` should have been `num_to_8_le_bytes` here though.
 //! This is something that hacspec would have caught.
-//! In particular, the following would not compile (see [source code](../src/chacha20poly1305_rfc7539/chacha20poly1305.rs.html#61-62)).
+//! In particular, any of the following would not compile.
+//! See the [source code](../src/chacha20poly1305_rfc7539/chacha20poly1305.rs.html#61-62)) for the correct implementation.
 //! 
 //! ```ignore
 //! padded_msg = padded_msg.update(pad_aad + pad_msg, &U32_to_le_bytes(U64(laad as u64)));
 //! padded_msg = padded_msg.update(pad_aad + pad_msg + 8, &U32_to_le_bytes(U64(lmsg as u64)));
+//! ```
+//! 
+//! ```ignore
+//! padded_msg = padded_msg.update(pad_aad + pad_msg, &U64_to_le_bytes(U32(laad as u64)));
+//! padded_msg = padded_msg.update(pad_aad + pad_msg + 8, &U64_to_le_bytes(U32(lmsg as u64)));
+//! ```
+//! 
+//! ```ignore
+//! padded_msg = padded_msg.update(pad_aad + pad_msg, &U64_to_le_bytes(U64(laad as u32)));
+//! padded_msg = padded_msg.update(pad_aad + pad_msg + 8, &U64_to_le_bytes(U64(lmsg as u32)));
 //! ```
 //! 
 
@@ -58,8 +69,8 @@ fn pad_aad_msg(aad: &ByteSeq, msg: &ByteSeq) -> ByteSeq {
     let mut padded_msg = ByteSeq::new(pad_aad + pad_msg + 16);
     padded_msg = padded_msg.update(0, aad);
     padded_msg = padded_msg.update(pad_aad, msg);
-    padded_msg = padded_msg.update(pad_aad + pad_msg, &U32_to_le_bytes(U64(laad as u64)));
-    padded_msg = padded_msg.update(pad_aad + pad_msg + 8, &U32_to_le_bytes(U64(lmsg as u64)));
+    padded_msg = padded_msg.update(pad_aad + pad_msg, &U64_to_le_bytes(U64(laad as u64)));
+    padded_msg = padded_msg.update(pad_aad + pad_msg + 8, &U64_to_le_bytes(U64(lmsg as u64)));
     padded_msg
 }
 
