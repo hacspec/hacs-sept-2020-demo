@@ -2,7 +2,7 @@
 use hacspec_lib::*;
 
 fn build_irreducible(p: usize) -> Seq<i128> {
-    let mut irr: Seq<i128> = Seq::new(p + 1);
+    let mut irr = Seq::<i128>::new(p + 1);
     irr[0] = -1i128;
     irr[1] = -1i128;
     irr[p] = 1i128;
@@ -13,19 +13,18 @@ fn build_irreducible(p: usize) -> Seq<i128> {
 /// then round it to the nearest multiple of 3
 pub fn round_to_3(poly: &Seq<i128>, q: i128) -> Seq<i128> {
     let mut result = poly.clone();
-    let q_12 = (q - 1) / 2;
+    let q_12 = (q - 1i128) / 2i128;
     for i in 0..poly.len() {
         if poly[i] > q_12 {
             result[i] = poly[i] - q;
         }
     }
     for i in 0..result.len() {
-        if result[i] % 3 == 0 {
-            continue;
-        }
-        result[i] -= 1;
-        if result[i] % 3 != 0 {
-            result[i] += 2;
+        if result[i] % 3i128 != 0i128 {
+            result[i] = result[i] - 1i128;
+            if result[i] % 3i128 != 0i128 {
+                result[i] = result[i] + 2i128;
+            }
         }
     }
     result
@@ -67,12 +66,12 @@ pub fn ntru_prime_653_decrypt(c: &Seq<i128>, key_f: &Seq<i128>, key_v: &Seq<i128
     let q_12 = (q - 1) / 2;
     for i in 0..f_3_c.len() {
         if f_3_c[i] > q_12 {
-            f_3_c[i] -= q;
+            f_3_c[i] = f_3_c[i] - q;
         }
     }
 
     // lift f_3_c to R_3
-    let mut e: Seq<i128> = Seq::new(f_3_c.len());
+    let mut e = Seq::<i128>::new(f_3_c.len());
     for i in 0..e.len() {
         e[i] = f_3_c[i] % 3;
     }
