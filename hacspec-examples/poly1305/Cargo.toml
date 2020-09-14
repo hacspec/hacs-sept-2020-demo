@@ -9,7 +9,7 @@ path = "poly1305.rs"
 
 [dependencies]
 chacha20 = { path = "../chacha20" }
-hacspec-lib = { git = "https://github.com/hacspec/hacspec/", branch = "fstar-compiler-more" }
+hacspec-lib = { git = "https://github.com/hacspec/hacspec/", branch = "fstar-compiler" }
 
 [dev-dependencies]
-hacspec-dev = { git = "https://github.com/hacspec/hacspec/", branch = "fstar-compiler-more" }
+hacspec-dev = { git = "https://github.com/hacspec/hacspec/", branch = "fstar-compiler" }

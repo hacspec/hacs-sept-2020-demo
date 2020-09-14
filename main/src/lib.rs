@@ -22,7 +22,7 @@
 //! To install the typechecker and compiler run:
 //!
 //! ```bash
-//! cargo +nightly install --git https://github.com/hacspec/hacspec --branch fstar-compiler-more hacspec
+//! cargo +nightly install --git https://github.com/hacspec/hacspec --branch fstar-compiler hacspec
 //! ```
 //!
 //! To run the `hacspec` command you might also have to set the library path, e.g.
