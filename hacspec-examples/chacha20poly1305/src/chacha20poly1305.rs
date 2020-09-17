@@ -24,7 +24,7 @@ fn pad_aad_msg(aad: &ByteSeq, msg: &ByteSeq) -> ByteSeq {
 
 pub fn encrypt(key: Key, iv: IV, aad: &ByteSeq, msg: &ByteSeq) -> (ByteSeq, Tag) {
     let key_block = block(key, U32(0u32), iv);
-    let mac_key = Key::from_slice_range(&key_block, 0..32);
+    let mac_key = KeyPoly::from_slice_range(&key_block, 0..32);
     let cipher_text = chacha(key, iv, msg);
     let padded_msg = pad_aad_msg(aad, &cipher_text);
     let tag = poly(&padded_msg, mac_key);
@@ -39,7 +39,7 @@ pub fn decrypt(
     tag: Tag,
 ) -> (ByteSeq, bool) {
     let key_block = block(key, U32(0u32), iv);
-    let mac_key = Key::from_slice_range(&key_block, 0..32);
+    let mac_key = KeyPoly::from_slice_range(&key_block, 0..32);
     let padded_msg = pad_aad_msg(aad, cipher_text);
     let my_tag = poly(&padded_msg, mac_key);
     let plain_text = chacha(key, iv, cipher_text);

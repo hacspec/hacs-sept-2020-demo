@@ -17,3 +17,4 @@ hacspec-lib = { git = "https://github.com/hacspec/hacspec/", branch = "fstar-com
 [dev-dependencies]
 hacspec-dev = { git = "https://github.com/hacspec/hacspec/", branch = "fstar-compiler" }
 
+

@@ -19,15 +19,10 @@
 //! rustup component add --toolchain nightly rustc-dev
 //! rustup component add --toolchain nightly llvm-tools-preview
 //! ```
-//! To install the typechecker and compiler run:
-//!
+//! To run the typechecker and compiler on a spec check out the hacspec repository
+//! 
 //! ```bash
-//! cargo +nightly install --git https://github.com/hacspec/hacspec --branch fstar-compiler hacspec
-//! ```
-//!
-//! To run the `hacspec` command you might also have to set the library path, e.g.
-//! ```bash
-//! export DYLD_LIBRARY_PATH=$(rustc --print sysroot)/lib
+//! git clone https://github.com/hacspec/hacspec.git
 //! ```
 //!
 //! **Windows:** note that this hasn't been tested on Windows.
@@ -45,11 +40,19 @@
 //! individual crate.
 //!
 //! ### Typecheck specs
-//! To ensure that a spec is compliant with the hacspec language the [typechecker](https://github.com/hacspec/hacspec/tree/master/hacspec)
+//! To ensure that a spec is compliant with the hacspec language the [typechecker](https://github.com/hacspec/hacspec/tree/master/language)
 //! can be used.
 //! The typechecker also outputs F* code.
 //!
+//! Go into `hacspec/language` run the compiler as follows on the examples in this
+//! repository (assuming the `hacspec-hacs-sept-2020-demo` is next to `hacspec`).
+//! You can point this to any hacspec implementation.
+//! 
 //! ```bash
-//! hacspec -L $PWD/target/debug/deps/ -L $PWD/../hacspec/target/debug/deps --crate-type=lib --edition=2018 --extern=hacspec_lib -o ChaCha20.fst hacspec-examples/chacha20/chacha20.rs
+//! cargo +nightly run -- \
+//!     -L $PWD/../hacspec-hacs-sept-2020-demo/target/debug/deps \
+//!     --crate-type=lib --edition=2018 \
+//!     --extern=hacspec_lib -Zno-codegen \
+//!     $PWD/../../hacspec-hacs-sept-2020-demo/hacspec-examples/poly1305/poly1305.rs
 //! ```
 //!
