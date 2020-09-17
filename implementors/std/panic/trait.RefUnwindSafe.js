@@ -1,4 +1,4 @@
 (function() {var implementors = {};
 implementors["chacha20"] = [{"text":"impl RefUnwindSafe for State","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for StateBytes","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for IV","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for Key","synthetic":true,"types":[]}];
-implementors["poly1305"] = [{"text":"impl RefUnwindSafe for Block","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for Tag","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for FieldCanvas","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for FieldElement","synthetic":true,"types":[]}];
+implementors["poly1305"] = [{"text":"impl RefUnwindSafe for KeyPoly","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for Block","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for Tag","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for FieldCanvas","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for FieldElement","synthetic":true,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

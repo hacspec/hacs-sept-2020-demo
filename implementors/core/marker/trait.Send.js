@@ -1,4 +1,4 @@
 (function() {var implementors = {};
 implementors["chacha20"] = [{"text":"impl Send for State","synthetic":true,"types":[]},{"text":"impl Send for StateBytes","synthetic":true,"types":[]},{"text":"impl Send for IV","synthetic":true,"types":[]},{"text":"impl Send for Key","synthetic":true,"types":[]}];
-implementors["poly1305"] = [{"text":"impl Send for Block","synthetic":true,"types":[]},{"text":"impl Send for Tag","synthetic":true,"types":[]},{"text":"impl Send for FieldCanvas","synthetic":true,"types":[]},{"text":"impl Send for FieldElement","synthetic":true,"types":[]}];
+implementors["poly1305"] = [{"text":"impl Send for KeyPoly","synthetic":true,"types":[]},{"text":"impl Send for Block","synthetic":true,"types":[]},{"text":"impl Send for Tag","synthetic":true,"types":[]},{"text":"impl Send for FieldCanvas","synthetic":true,"types":[]},{"text":"impl Send for FieldElement","synthetic":true,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

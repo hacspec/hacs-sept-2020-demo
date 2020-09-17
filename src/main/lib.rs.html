@@ -54,6 +54,9 @@
 <span id="53">53</span>
 <span id="54">54</span>
 <span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This is a demo of hacspec for the HACS workshop on September 22.</span>
 <span class="doccomment">//!</span>
@@ -76,15 +79,10 @@
 <span class="doccomment">//! rustup component add --toolchain nightly rustc-dev</span>
 <span class="doccomment">//! rustup component add --toolchain nightly llvm-tools-preview</span>
 <span class="doccomment">//! ```</span>
-<span class="doccomment">//! To install the typechecker and compiler run:</span>
-<span class="doccomment">//!</span>
+<span class="doccomment">//! To run the typechecker and compiler on a spec check out the hacspec repository</span>
+<span class="doccomment">//! </span>
 <span class="doccomment">//! ```bash</span>
-<span class="doccomment">//! cargo +nightly install --git https://github.com/hacspec/hacspec --branch fstar-compiler hacspec</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! To run the `hacspec` command you might also have to set the library path, e.g.</span>
-<span class="doccomment">//! ```bash</span>
-<span class="doccomment">//! export DYLD_LIBRARY_PATH=$(rustc --print sysroot)/lib</span>
+<span class="doccomment">//! git clone https://github.com/hacspec/hacspec.git</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! **Windows:** note that this hasn&#39;t been tested on Windows.</span>
@@ -102,12 +100,20 @@
 <span class="doccomment">//! individual crate.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ### Typecheck specs</span>
-<span class="doccomment">//! To ensure that a spec is compliant with the hacspec language the [typechecker](https://github.com/hacspec/hacspec/tree/master/hacspec)</span>
+<span class="doccomment">//! To ensure that a spec is compliant with the hacspec language the [typechecker](https://github.com/hacspec/hacspec/tree/master/language)</span>
 <span class="doccomment">//! can be used.</span>
 <span class="doccomment">//! The typechecker also outputs F* code.</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//! Go into `hacspec/language` run the compiler as follows on the examples in this</span>
+<span class="doccomment">//! repository (assuming the `hacspec-hacs-sept-2020-demo` is next to `hacspec`).</span>
+<span class="doccomment">//! You can point this to any hacspec implementation.</span>
+<span class="doccomment">//! </span>
 <span class="doccomment">//! ```bash</span>
-<span class="doccomment">//! hacspec -L $PWD/target/debug/deps/ -L $PWD/../hacspec/target/debug/deps --crate-type=lib --edition=2018 --extern=hacspec_lib -o ChaCha20.fst hacspec-examples/chacha20/chacha20.rs</span>
+<span class="doccomment">//! cargo +nightly run -- \</span>
+<span class="doccomment">//!     -L $PWD/../hacspec-hacs-sept-2020-demo/target/debug/deps \</span>
+<span class="doccomment">//!     --crate-type=lib --edition=2018 \</span>
+<span class="doccomment">//!     --extern=hacspec_lib -Zno-codegen \</span>
+<span class="doccomment">//!     $PWD/../../hacspec-hacs-sept-2020-demo/hacspec-examples/poly1305/poly1305.rs</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 </pre></div>

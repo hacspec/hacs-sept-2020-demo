@@ -1,4 +1,4 @@
 (function() {var implementors = {};
 implementors["chacha20"] = [{"text":"impl Unpin for State","synthetic":true,"types":[]},{"text":"impl Unpin for StateBytes","synthetic":true,"types":[]},{"text":"impl Unpin for IV","synthetic":true,"types":[]},{"text":"impl Unpin for Key","synthetic":true,"types":[]}];
-implementors["poly1305"] = [{"text":"impl Unpin for Block","synthetic":true,"types":[]},{"text":"impl Unpin for Tag","synthetic":true,"types":[]},{"text":"impl Unpin for FieldCanvas","synthetic":true,"types":[]},{"text":"impl Unpin for FieldElement","synthetic":true,"types":[]}];
+implementors["poly1305"] = [{"text":"impl Unpin for KeyPoly","synthetic":true,"types":[]},{"text":"impl Unpin for Block","synthetic":true,"types":[]},{"text":"impl Unpin for Tag","synthetic":true,"types":[]},{"text":"impl Unpin for FieldCanvas","synthetic":true,"types":[]},{"text":"impl Unpin for FieldElement","synthetic":true,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
