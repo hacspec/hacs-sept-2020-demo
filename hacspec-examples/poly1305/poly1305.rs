@@ -98,7 +98,7 @@ pub fn clamp(r: U128) -> FieldElement {
 pub fn le_bytes_to_num(block: &ByteSeq) -> FieldElement {
     let block_uint = seq_to_uint(block);
     let w_elem = FieldElement::from_secret_literal(block_uint);
-    let l_elem = FieldElement::from_canvas(FieldCanvas::pow2(8 * block.len()));
+    let l_elem = FieldElement::pow2(8 * block.len());
     w_elem + l_elem
 }
 

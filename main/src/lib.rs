@@ -4,12 +4,12 @@
 //! There are 5 separate parts to this demo.
 //!
 //! 1) Demo hacspec for some primitive side by side with RFC pseudocode
+//!     1) Poly1305
+//!     2) Polynomial example
 //! 2) Demo the typechecker with some (self-introduced) bug
 //! 3) Demo F* translation with a more advanced bug found by F*
 //! 4) Demo F* spec side-by-side with existing HACL* spec, and a proof of
 //!    equivalence for one function
-//! 5) Present formal semantics for hacspec that enables us to do all of the
-//!    above in a sound way.
 //!
 //! ### Setup
 //! The typechecker requires a Rust nightly compiler and additional Rust components.
@@ -20,9 +20,17 @@
 //! rustup component add --toolchain nightly llvm-tools-preview
 //! ```
 //! To run the typechecker and compiler on a spec check out the hacspec repository
-//! 
+//!
 //! ```bash
 //! git clone https://github.com/hacspec/hacspec.git
+//! ```
+//!
+//! #### HACL* and F*
+//! To typecheck the generated F* code [F*](https://www.fstar-lang.org/#download)
+//! and a checkout of HACL* is required.
+//!
+//! ```bash
+//! git clone https://github.com/project-everest/hacl-star.git
 //! ```
 //!
 //! **Windows:** note that this hasn't been tested on Windows.
@@ -47,12 +55,39 @@
 //! Go into `hacspec/language` run the compiler as follows on the examples in this
 //! repository (assuming the `hacspec-hacs-sept-2020-demo` is next to `hacspec`).
 //! You can point this to any hacspec implementation.
-//! 
+//!
 //! ```bash
 //! cargo +nightly run -- \
 //!     -L $PWD/../hacspec-hacs-sept-2020-demo/target/debug/deps \
 //!     --crate-type=lib --edition=2018 \
 //!     --extern=hacspec_lib -Zno-codegen \
 //!     $PWD/../../hacspec-hacs-sept-2020-demo/hacspec-examples/poly1305/poly1305.rs
+//! ```
+//!
+//! To generate F* code from hacspec run
+//!
+//! ```bash
+//! cargo +nightly run -- \
+//!     -L $PWD/../hacspec-hacs-sept-2020-demo/target/debug/deps \
+//!     --crate-type=lib --edition=2018 \
+//!     --extern=hacspec_lib \
+//!     -o $PWD/../../hacspec-hacs-sept-2020-demo/Hacspec.Poly1305.fst \
+//!     $PWD/../../hacspec-hacs-sept-2020-demo/hacspec-examples/poly1305/poly1305.rs
+//! ```
+//!
+//! ### Typecheck F* specs
+//! The generated F* specs can be typechecked with F* using [HACL*](https://github.com/project-everest/hacl-star/)
+//! and the [hacspec F* library](https://github.com/hacspec/hacspec/tree/master/fstar).
+//!
+//! Prerequisites:
+//! * `fstar.exe` is in your path
+//! * `$HACL_HOME` is set to a checkout HACL*
+//! * `$HACSPEC_HOME` is set to the checkout of hacspec
+//!
+//! ```bash
+//! fstar.exe --lax \
+//!     --include $HACSPEC_HOME/fstar \
+//!     --include $HACL_HOME/lib \
+//!     Hacspec.Poly1305.fst
 //! ```
 //!
