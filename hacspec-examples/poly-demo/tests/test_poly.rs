@@ -177,13 +177,13 @@ fn kat_ntru_prime_653() {
         -2076, 1008, 753, -1458, -672, -1782, -1695, -780, -1596, 0,
     ]);
 
-    let cipher = ntru_prime_653_encrypt(&m, &pk);
+    let cipher = poly_encrypt(&m, &pk);
     assert_eq!(cipher.len(), c.len());
     for i in 0..cipher.len() {
         assert_eq!(cipher[i], c[i]);
     }
 
-    let (message, ok) = ntru_prime_653_decrypt(&cipher, &sk.0, &sk.1);
+    let (message, ok) = poly_decrypt(&cipher, &sk.0, &sk.1);
     assert_eq!(ok, true);
     assert_eq!(message.len(), m.len());
     for i in 0..message.len() {

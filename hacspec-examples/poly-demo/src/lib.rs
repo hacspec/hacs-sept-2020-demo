@@ -2,6 +2,8 @@
 use hacspec_lib::*;
 
 fn build_irreducible(p: usize) -> Seq<i128> {
+    // Build the irreducible polynomial.
+    // This is an example of building sparse polynomials.
     let mut irr = Seq::<i128>::new(p + 1);
     irr[0] = -1i128;
     irr[1] = -1i128;
@@ -37,7 +39,7 @@ fn encrypt(r: &Seq<i128>, h: &Seq<i128>, q: i128, irreducible: &Seq<i128>) -> Se
 }
 
 /// NTRU Prime 653 basic encryption
-pub fn ntru_prime_653_encrypt(r: &Seq<i128>, h: &Seq<i128>) -> Seq<i128> {
+pub fn poly_encrypt(r: &Seq<i128>, h: &Seq<i128>) -> Seq<i128> {
     let p = 653;
     let q = 4621_i128;
     let _w = 288;
@@ -46,12 +48,12 @@ pub fn ntru_prime_653_encrypt(r: &Seq<i128>, h: &Seq<i128>) -> Seq<i128> {
     encrypt(r, h, q, &irreducible)
 }
 
+fn triple_poly(poly: &Seq<i128>, modulus: i128) -> Seq<i128> {
+    add_poly(poly, &add_poly(poly, poly, modulus), modulus)
+}
+
 /// NTRU Prime 653 basic decryption
-pub fn ntru_prime_653_decrypt(
-    c: &Seq<i128>,
-    key_f: &Seq<i128>,
-    key_v: &Seq<i128>,
-) -> (Seq<i128>, bool) {
+pub fn poly_decrypt(c: &Seq<i128>, key_f: &Seq<i128>, key_v: &Seq<i128>) -> (Seq<i128>, bool) {
     let p = 653;
     let q = 4621_i128;
     let _w = 288;
@@ -59,13 +61,7 @@ pub fn ntru_prime_653_decrypt(
 
     // calculate 3*f and 3*f*c
     let f_c = mul_poly_irr(key_f, c, &irreducible, q);
-    let f_3_c_and_decryption_ok = poly_to_ring(
-        &irreducible,
-        &add_poly(&f_c, &add_poly(&f_c, &f_c, q), q),
-        q,
-    );
-    let (f_3_c, ok_decrypt) = f_3_c_and_decryption_ok;
-    let mut f_3_c = f_3_c;
+    let (mut f_3_c, ok_decrypt) = poly_to_ring(&irreducible, &triple_poly(&f_c, q), q);
 
     // view coefficients as values between -(q-1/2) and (q-1/2)
     let q_12 = (q - 1i128) / 2i128;
