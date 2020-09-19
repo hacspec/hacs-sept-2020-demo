@@ -42,6 +42,19 @@
 //!          end
 //! ```
 //!
+//! ## Errata ID: 5689
+//! Errata [5689](https://www.rfc-editor.org/errata/eid5689) identifies an issue
+//! where the input msg end is overrun if it's not a multiple of 16.
+//!
+//! RFC 8439 takes `msg[((i-1)*16)..(i*16)]` when the end should be at
+//! `min(i*16-1, msg length in bytes - 1)`, not `i*16`.
+//!
+//! Using `num_chunks` and `get_chunk` provided by the hacspec library such an
+//! error is not possible.
+//! `get_chunk` returns a `Seq` of length up to the provided chunk size as well
+//! as the actual length of the chunk.
+//! This makes such an error less likely but still possible.
+//!
 
 // Import hacspec and all needed definitions.
 use hacspec_lib::*;
@@ -82,8 +95,7 @@ pub fn key_to_uints(b: KeyPoly) -> (U128, U128) {
 }
 
 /// Take a variable length byte array and convert it into a U128 (secret u128).
-pub fn seq_to_uint(b: &ByteSeq) -> U128 {
-    let block_len = b.len();
+pub fn seq_to_uint(b: &ByteSeq, block_len: usize) -> U128 {
     let block_as_u128 = U128Word::from_slice(b, 0, min(16, block_len));
     U128_from_le_bytes(block_as_u128)
 }
@@ -95,10 +107,10 @@ pub fn clamp(r: U128) -> FieldElement {
 }
 
 /// Convert a block (part of the byte sequence) to a `FieldElement`.
-pub fn le_bytes_to_num(block: &ByteSeq) -> FieldElement {
-    let block_uint = seq_to_uint(block);
+pub fn le_bytes_to_num(block: &ByteSeq, len: usize) -> FieldElement {
+    let block_uint = seq_to_uint(block, len);
     let w_elem = FieldElement::from_secret_literal(block_uint);
-    let l_elem = FieldElement::pow2(8 * block.len());
+    let l_elem = FieldElement::pow2(8 * len);
     w_elem + l_elem
 }
 
@@ -122,9 +134,8 @@ pub fn poly(m: &ByteSeq, key: KeyPoly) -> Tag {
 
     let mut a = FieldElement::from_literal(0u128);
     for i in 0..m.num_chunks(BLOCKSIZE) {
-        let (_, block) = m.get_chunk(BLOCKSIZE, i);
-        // The operations are modulo p (they values are field elements)
-        let n = le_bytes_to_num(&block);
+        let (len, block) = m.get_chunk(BLOCKSIZE, i);
+        let n = le_bytes_to_num(&block, len);
         a = a + n;
         a = a * r_elem;
     }

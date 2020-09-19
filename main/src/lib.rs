@@ -75,6 +75,21 @@
 //!     $PWD/../../hacspec-hacs-sept-2020-demo/hacspec-examples/poly1305/poly1305.rs
 //! ```
 //!
+//! #### Multi-crate specs
+//!
+//! ```bash
+//! cargo +nightly run -- \
+//!     -L $PWD/../hacspec-hacs-sept-2020-demo/target/debug/deps \
+//!     --crate-type=lib --edition=2018 \
+//!     --extern=hacspec_lib \
+//!     --extern=chacha20 \
+//!     --extern=poly1305 \
+//!     -Zno-codegen \
+//!     $PWD/../../hacspec-hacs-sept-2020-demo/hacspec-examples/chacha20poly1305-rfc7539/src/chacha20poly1305.rs
+//! ```
+//!
+//! Note that ChaCha20Poly1305 can't be translated to F* just yet.
+//!
 //! ### Typecheck F* specs
 //! The generated F* specs can be typechecked with F* using [HACL*](https://github.com/project-everest/hacl-star/)
 //! and the [hacspec F* library](https://github.com/hacspec/hacspec/tree/master/fstar).

@@ -40,10 +40,11 @@ fn kat() {
         0x1a, 0xe1, 0x0b, 0x59, 0x4f, 0x09, 0xe2, 0x6a, 0x7e, 0x90, 0x2e, 0xcb, 0xd0, 0x60, 0x06,
         0x91,
     ]);
-    let (cipher, mac) = encrypt(k, iv, &aad, &msg).unwrap();
+    let (cipher, mac) = encrypt(k, iv, &aad, &msg);
     assert_bytes_eq!(exp_cipher, cipher);
     assert_eq!(exp_mac, mac);
-    let decrypted_msg = decrypt(k, iv, &aad, &cipher, mac).unwrap();
+    let (decrypted_msg, valid) = decrypt(k, iv, &aad, &cipher, mac);
+    assert!(valid);
     assert_bytes_eq!(msg, decrypted_msg);
 }
 
