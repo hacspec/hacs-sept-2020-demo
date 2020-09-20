@@ -1,28 +1,43 @@
 //! This is a demo of hacspec for the HACS workshop on September 22.
 //!
-//! ## Overview
-//! There are 5 separate parts to this demo.
+//! ## Agenda
+//! 1) hacspec overview (FK)
+//! 2) rustspec (DM)
+//! 3) outlook
 //!
-//! 1) Demo hacspec for some primitive side by side with RFC pseudocode
-//!     1) Poly1305
-//!     2) Polynomial example
-//! 2) Demo the typechecker with some (self-introduced) bug
-//! 3) Demo F* translation with a more advanced bug found by F*
-//! 4) Demo F* spec side-by-side with existing HACL* spec, and a proof of
-//!    equivalence for one function
+//! ## Takeaways
+//! * hacspec is a Rust subset to write succinct specifications of crypto primitives
+//!   * eventually also protocols
+//! * [formalization and semantics](https://github.com/hacspec/hacspec/blob/master/formalization/formalization.pdf)
+//! * usable for PQC
+//! * usable right now
+//!   * but typechecker still work in progress
 //!
-//! ### Setup
+//! ### Workflow
+//! 1. Write
+//! * write spec (look at [examples](https://github.com/hacspec/hacspec/tree/master/examples) or [formalization](https://github.com/hacspec/hacspec/blob/master/formalization/formalization.pdf) for allowed subset)
+//! * write and run tests
+//! * run [typechecker](#typecheck-specs)
+//! 2. Use & implement
+//! * use spec in any Rust (or FFI) application
+//! * implement optimised version with same API
+//! * swap out implementation
+//! 3. Proofs
+//! * proof equivalence of spec and implementation
+//!
+//! ## Setup hacspec
+//! First check out the hacspec repository.
+//! It contains the typechecker, compiler, hacspec library, and examples.
+//!
+//! ```bash
+//! git clone https://github.com/hacspec/hacspec.git
+//! ```
 //! The typechecker requires a Rust nightly compiler and additional Rust components.
 //!
 //! ```bash
 //! rustup toolchain install nightly
 //! rustup component add --toolchain nightly rustc-dev
 //! rustup component add --toolchain nightly llvm-tools-preview
-//! ```
-//! To run the typechecker and compiler on a spec check out the hacspec repository
-//!
-//! ```bash
-//! git clone https://github.com/hacspec/hacspec.git
 //! ```
 //!
 //! #### HACL* and F*
@@ -33,7 +48,18 @@
 //! git clone https://github.com/project-everest/hacl-star.git
 //! ```
 //!
-//! **Windows:** note that this hasn't been tested on Windows.
+//! **Note:** Hacspec has not been tested on Windows.
+//!
+//! ## Demo Overview
+//! There are 4 separate parts to this demo.
+//!
+//! 1) Demo hacspec for some primitive compared to RFC pseudocode
+//!     1) Poly1305
+//!     2) Polynomial example
+//! 2) Demo of the typechecker
+//! 3) Demo F* translation
+//! 4) Demo F* spec side-by-side with existing HACL* spec, and a proof of
+//!    equivalence for one function
 //!
 //! ## Demo Specs
 //! The demo specs are in separate crates:
