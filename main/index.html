@@ -1,34 +1,79 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `main` crate."><meta name="keywords" content="rust, rustlang, rust-lang, main"><title>main - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../ayu.css" disabled ><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../main/index.html'><div class='logo-container rust-logo'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate main</p><div class='block version'><p>Version 0.1.0</p></div><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all main's items</p></a><p class='location'></p><script>window.sidebarCurrent = {name: 'main', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
-                <a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/main/lib.rs.html#1-108' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>main</a></span></h1><div class='docblock'><p>This is a demo of hacspec for the HACS workshop on September 22.</p>
-<h2 id="overview" class="section-header"><a href="#overview">Overview</a></h2>
-<p>There are 5 separate parts to this demo.</p>
+                <a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/main/lib.rs.html#1-134' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>main</a></span></h1><div class='docblock'><p>This is a demo of hacspec for the HACS workshop on September 22.</p>
+<h2 id="agenda" class="section-header"><a href="#agenda">Agenda</a></h2>
 <ol>
-<li>Demo hacspec for some primitive side by side with RFC pseudocode
-<ol>
-<li>Poly1305</li>
-<li>Polynomial example</li>
+<li>hacspec overview (FK)</li>
+<li>rustspec (DM)</li>
+<li>outlook</li>
 </ol>
+<h2 id="takeaways" class="section-header"><a href="#takeaways">Takeaways</a></h2>
+<ul>
+<li>hacspec is a Rust subset to write succinct specifications of crypto primitives
+<ul>
+<li>eventually also protocols</li>
+</ul>
 </li>
-<li>Demo the typechecker with some (self-introduced) bug</li>
-<li>Demo F* translation with a more advanced bug found by F*</li>
-<li>Demo F* spec side-by-side with existing HACL* spec, and a proof of
-equivalence for one function</li>
+<li><a href="https://github.com/hacspec/hacspec/blob/master/formalization/formalization.pdf">formalization and semantics</a></li>
+<li>usable for PQC</li>
+<li>usable right now
+<ul>
+<li>but typechecker still work in progress</li>
+</ul>
+</li>
+</ul>
+<h3 id="workflow" class="section-header"><a href="#workflow">Workflow</a></h3>
+<ol>
+<li>Write</li>
 </ol>
-<h3 id="setup" class="section-header"><a href="#setup">Setup</a></h3>
+<ul>
+<li>write spec (look at <a href="https://github.com/hacspec/hacspec/tree/master/examples">examples</a> or <a href="https://github.com/hacspec/hacspec/blob/master/formalization/formalization.pdf">formalization</a> for allowed subset)</li>
+<li>write and run tests</li>
+<li>run <a href="#typecheck-specs">typechecker</a></li>
+</ul>
+<ol start="2">
+<li>Use &amp; implement</li>
+</ol>
+<ul>
+<li>use spec in any Rust (or FFI) application</li>
+<li>implement optimised version with same API</li>
+<li>swap out implementation</li>
+</ul>
+<ol start="3">
+<li>Proofs</li>
+</ol>
+<ul>
+<li>proof equivalence of spec and implementation</li>
+</ul>
+<h2 id="setup-hacspec" class="section-header"><a href="#setup-hacspec">Setup hacspec</a></h2>
+<p>First check out the hacspec repository.
+It contains the typechecker, compiler, hacspec library, and examples.</p>
+<pre><code class="language-bash">git clone https://github.com/hacspec/hacspec.git
+</code></pre>
 <p>The typechecker requires a Rust nightly compiler and additional Rust components.</p>
 <pre><code class="language-bash">rustup toolchain install nightly
 rustup component add --toolchain nightly rustc-dev
 rustup component add --toolchain nightly llvm-tools-preview
-</code></pre>
-<p>To run the typechecker and compiler on a spec check out the hacspec repository</p>
-<pre><code class="language-bash">git clone https://github.com/hacspec/hacspec.git
 </code></pre>
 <h4 id="hacl-and-f" class="section-header"><a href="#hacl-and-f">HACL* and F*</a></h4>
 <p>To typecheck the generated F* code <a href="https://www.fstar-lang.org/#download">F*</a>
 and a checkout of HACL* is required.</p>
 <pre><code class="language-bash">git clone https://github.com/project-everest/hacl-star.git
 </code></pre>
-<p><strong>Windows:</strong> note that this hasn't been tested on Windows.</p>
+<p><strong>Note:</strong> Hacspec has not been tested on Windows.</p>
+<h2 id="demo-overview" class="section-header"><a href="#demo-overview">Demo Overview</a></h2>
+<p>There are 4 separate parts to this demo.</p>
+<ol>
+<li>Demo hacspec for some primitive compared to RFC pseudocode
+<ol>
+<li>Poly1305</li>
+<li>Polynomial example</li>
+</ol>
+</li>
+<li>Demo of the typechecker</li>
+<li>Demo F* translation</li>
+<li>Demo F* spec side-by-side with existing HACL* spec, and a proof of
+equivalence for one function</li>
+</ol>
 <h2 id="demo-specs" class="section-header"><a href="#demo-specs">Demo Specs</a></h2>
 <p>The demo specs are in separate crates:</p>
 <ul>
