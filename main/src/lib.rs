@@ -2,14 +2,15 @@
 //!
 //! ## Agenda
 //! 1) hacspec overview (FK)
-//! 2) rustspec (DM)
-//! 3) outlook
+//! 2) "rustspec" (DM)
 //!
 //! ## Takeaways
 //! * hacspec is a Rust subset to write succinct specifications of crypto primitives
 //!   * eventually also protocols
 //! * [formalization and semantics](https://github.com/hacspec/hacspec/blob/master/formalization/formalization.pdf)
 //! * usable for PQC
+//!   * still WiP and there are rough edges
+//!   * write hacspec for PQC things and tell us what's not working
 //! * usable right now
 //!   * but typechecker still work in progress
 //!

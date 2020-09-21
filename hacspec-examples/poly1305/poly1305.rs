@@ -55,6 +55,12 @@
 //! as the actual length of the chunk.
 //! This makes such an error less likely but still possible.
 //!
+//! As you can see in [le_bytes_to_num_fixed_length](../src/poly1305/poly1305.rs.html#99), which is essentially
+//! `le_bytes_to_num` from the RFC, this will fail when using an input with an
+//! input length that's not a multiple of 16.
+//!
+//! While the Rust or hacspec typechecker won't find this issue F* will.
+//!
 
 // Import hacspec and all needed definitions.
 use hacspec_lib::*;
@@ -84,19 +90,17 @@ public_nat_mod!(
     "03fffffffffffffffffffffffffffffffb"
 );
 
-/// Take a `KeyPoly` (32-byte array) and convert it into two U128 (secret u128).
-pub fn key_to_uints(b: KeyPoly) -> (U128, U128) {
-    let uint_128_1 = U128Word::from_slice(&b, 0, BLOCKSIZE);
-    let uint_128_2 = U128Word::from_slice(&b, BLOCKSIZE, BLOCKSIZE);
-    (
-        U128_from_le_bytes(uint_128_1),
-        U128_from_le_bytes(uint_128_2),
-    )
+/// Take a variable length byte array and convert it into a U128 (secret u128).
+pub fn le_bytes_to_num(b: &ByteSeq, start: usize, block_len: usize) -> U128 {
+    let block_as_u128 = U128Word::from_slice(b, start, min(BLOCKSIZE, block_len));
+    U128_from_le_bytes(block_as_u128)
 }
 
-/// Take a variable length byte array and convert it into a U128 (secret u128).
-pub fn seq_to_uint(b: &ByteSeq, block_len: usize) -> U128 {
-    let block_as_u128 = U128Word::from_slice(b, 0, min(16, block_len));
+/// Take a fixed length (16) byte array and convert it into a U128 (secret u128).
+///
+/// This is what's used in the RFC and lead to errata 5689.
+pub fn le_bytes_to_num_fixed_length(b: &ByteSeq, start: usize) -> U128 {
+    let block_as_u128 = U128Word::from_slice(b, start, BLOCKSIZE);
     U128_from_le_bytes(block_as_u128)
 }
 
@@ -107,8 +111,7 @@ pub fn clamp(r: U128) -> FieldElement {
 }
 
 /// Convert a block (part of the byte sequence) to a `FieldElement`.
-pub fn le_bytes_to_num(block: &ByteSeq, len: usize) -> FieldElement {
-    let block_uint = seq_to_uint(block, len);
+pub fn encode(block_uint: U128, len: usize) -> FieldElement {
     let w_elem = FieldElement::from_secret_literal(block_uint);
     let l_elem = FieldElement::pow2(8 * len);
     w_elem + l_elem
@@ -127,19 +130,23 @@ pub fn num_to_16_le_bytes(a: FieldElement) -> Tag {
 }
 
 pub fn poly(m: &ByteSeq, key: KeyPoly) -> Tag {
-    let (key_1, key_2) = key_to_uints(key);
+    let key = ByteSeq::from_slice(&key, 0, key.len());
 
-    let r_elem = clamp(key_1);
-    let s_elem = FieldElement::from_secret_literal(key_2);
+    let r = le_bytes_to_num(&key, 0, BLOCKSIZE);
+    let r = clamp(r);
+
+    let s = le_bytes_to_num(&key, BLOCKSIZE, BLOCKSIZE);
+    let s = FieldElement::from_secret_literal(s);
 
     let mut a = FieldElement::from_literal(0u128);
     for i in 0..m.num_chunks(BLOCKSIZE) {
         let (len, block) = m.get_chunk(BLOCKSIZE, i);
-        let n = le_bytes_to_num(&block, len);
+        let block_uint = le_bytes_to_num(&block, 0, len);
+        let n = encode(block_uint, len);
         a = a + n;
-        a = a * r_elem;
+        a = r * a;
     }
 
-    let a = a + s_elem;
+    let a = a + s;
     num_to_16_le_bytes(a)
 }
