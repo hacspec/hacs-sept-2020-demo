@@ -94,11 +94,15 @@ let seq_len (#a: Type) (s: seq a) : nat = LSeq.length s
 
 (**** Chunking *)
 
-assume val seq_num_chunks (#a: Type) (s: seq a) (chunk_len: uint_size) : uint_size
+open FStar.Mul
+assume val seq_num_chunks (#a: Type) (s: seq a) (chunk_len: uint_size) : Pure uint_size
+    (requires (chunk_len > 0))
+    (ensures (fun n -> if n = 0 then seq_len s = 0 else chunk_len * (n - 1) < seq_len s /\ chunk_len * n >= seq_len s))
+
 
 assume val seq_get_chunk (#a: Type) (s: seq a) (chunk_len: uint_size) (chunk_num: uint_size)
   : Pure (uint_size & seq a)
-    (requires (True))
+    (requires (chunk_len * chunk_num < seq_len s))
     (ensures (fun (real_len, out) -> seq_len out == real_len /\ real_len <= chunk_len))
 
 assume val seq_set_chunk
@@ -122,7 +126,7 @@ assume val uint128_from_le_bytes (input: lseq uint8 (usize 16)) : uint128
 
 (*** Loops *)
 
-assume val foldi (#acc: Type) (lo: uint_size) (hi: uint_size) (f: ((i:uint_size{i < hi}) * acc) -> acc) (init: acc) : acc
+assume val foldi (#acc: Type) (lo: uint_size) (hi: uint_size) (f:(i:uint_size{i >= lo /\ i < hi} -> acc -> acc)) (init: acc) : acc
 
 
 (*** Nats *)
