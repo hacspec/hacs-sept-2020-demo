@@ -75,9 +75,12 @@ let array_index (#a: Type) (#len:uint_size) (s: lseq a len) (i: uint_size{i < le
 
 let array_upd (#a: Type) (#len:uint_size) (s: lseq a len) (i: uint_size{i < len}) (new_v: a) : lseq a len = LSeq.upd s i new_v
 
-val slice (#a: Type) (input: seq a) (start: uint_size) (fin:uint_size{start <= fin}) : lseq a (fin - start)
 
-val update_slice (#a: Type) (#len:uint_size) (input: lseq a len) (start: uint_size) (fin:uint_size{start <= fin /\ fin <= len}) (n:lseq a (fin - start)) : lseq a len
+let seq_len (#a: Type) (s: seq a) : nat = LSeq.length s
+
+val slice (#a: Type) (input: seq a) (start: uint_size) (len:uint_size{start + len <= seq_len input}) : lseq a len
+
+val update_slice (#a: Type) (input: seq a) (start: uint_size) (len:uint_size{start + len <= seq_len input}) (n:lseq a len) : r:seq a{seq_len r == seq_len input}
 
 assume val seq_from_slice_range
   (#a: Type)
@@ -89,8 +92,6 @@ assume val seq_from_slice_range
 val seq_slice_range (#a: Type) (#len:uint_size) (input: seq a) (start:uint_size) (fin:uint_size{fin - start >= 0 /\ fin - start <= max_size_t}) : lseq a (fin - start)
 
 assume val seq_update_start (#a: Type) (s: seq a) (start_s: seq a) : seq a
-
-let seq_len (#a: Type) (s: seq a) : nat = LSeq.length s
 
 (**** Chunking *)
 

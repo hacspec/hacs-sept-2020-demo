@@ -24,9 +24,6 @@ let le_bytes_to_num (b_1858 : byte_seq{seq_len b_1858 <= 16}) : uint128 =
   let b = update_slice b 0 len b_1858 in
   uint128_from_le_bytes b
 
-let le_bytes_16_to_num (b_1858 : byte_seq{seq_len b_1858 == 16}) : uint128 =
-  uint128_from_le_bytes b_1858
-
 let clamp (r_1860 : uint128) : field_element =
   let r_uint_1861 =
     (r_1860) &. (secret (pub_u128 0xffffffc0ffffffc0ffffffc0fffffff))
@@ -46,7 +43,7 @@ let num_to_16_le_bytes (a_1866 : field_element) : tag =
 let poly (m_1870 : byte_seq{seq_len m_1870 < max_size_t}) (key_1871 : key_poly) : tag =
   let r_1872 = le_bytes_to_num (slice (key_1871) (usize 0) (blocksize)) in
   let r_1873 = clamp (r_1872) in
-  let s_1874 = le_bytes_to_num (slice (key_1871) (blocksize) (2*blocksize)) in
+  let s_1874 = le_bytes_to_num (slice (key_1871) (blocksize) (blocksize)) in
   let s_1875 = nat_from_secret_literal (s_1874) in
   let a_1876 = nat_from_literal (pub_u128 0x0) in
   let (a_1876) =
@@ -56,11 +53,12 @@ let poly (m_1870 : byte_seq{seq_len m_1870 < max_size_t}) (key_1871 : key_poly) 
         seq_get_chunk (m_1870) (blocksize) (i_1877)
       in
       let block_uint_1880 = le_bytes_to_num (block_1879) in
-// Uncommenting the following line mimics the bug in Errata 5689
-//      let block_uint_1880 = le_bytes_16_to_num (slice m_1870 (blocksize*i_1877) (blocksize*i_1877+blocksize)) in
       let n_1881 = encode (block_uint_1880) (len_1878) in
-      let a_1876 = (a_1876) + (n_1881) in
-      let a_1876 = (r_1873) * (a_1876) in
+// Uncommenting the following line mimics the bug in Errata 5689
+//      let block_uint_1880 = le_bytes_to_num (slice m_1870 (blocksize*i_1877) (blocksize)) in
+//      let n_1881 = encode (block_uint_1880) blocksize in
+      let a_1876 = (a_1876) +% (n_1881) in
+      let a_1876 = (r_1873) *% (a_1876) in
       (a_1876))
     (a_1876)
   in
