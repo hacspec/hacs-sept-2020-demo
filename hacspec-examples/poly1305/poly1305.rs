@@ -55,10 +55,6 @@
 //! as the actual length of the chunk.
 //! This makes such an error less likely but still possible.
 //!
-//! As you can see in [le_bytes_to_num_fixed_length](../src/poly1305/poly1305.rs.html#99), which is essentially
-//! `le_bytes_to_num` from the RFC, this will fail when using an input with an
-//! input length that's not a multiple of 16.
-//!
 //! While the Rust or hacspec typechecker won't find this issue F* will.
 //!
 
@@ -91,16 +87,8 @@ public_nat_mod!(
 );
 
 /// Take a variable length byte array and convert it into a U128 (secret u128).
-pub fn le_bytes_to_num(b: &ByteSeq, start: usize, block_len: usize) -> U128 {
-    let block_as_u128 = U128Word::from_slice(b, start, min(BLOCKSIZE, block_len));
-    U128_from_le_bytes(block_as_u128)
-}
-
-/// Take a fixed length (16) byte array and convert it into a U128 (secret u128).
-///
-/// This is what's used in the RFC and lead to errata 5689.
-pub fn le_bytes_to_num_fixed_length(b: &ByteSeq, start: usize) -> U128 {
-    let block_as_u128 = U128Word::from_slice(b, start, BLOCKSIZE);
+pub fn le_bytes_to_num(b: &ByteSeq) -> U128 {
+    let block_as_u128 = U128Word::from_slice(b, 0, min(BLOCKSIZE, b.len()));
     U128_from_le_bytes(block_as_u128)
 }
 
@@ -130,19 +118,21 @@ pub fn num_to_16_le_bytes(a: FieldElement) -> Tag {
 }
 
 pub fn poly(m: &ByteSeq, key: KeyPoly) -> Tag {
-    let key = ByteSeq::from_slice(&key, 0, key.len());
-
-    let r = le_bytes_to_num(&key, 0, BLOCKSIZE);
+    let r = le_bytes_to_num(&key.slice(0, BLOCKSIZE));
     let r = clamp(r);
 
-    let s = le_bytes_to_num(&key, BLOCKSIZE, BLOCKSIZE);
+    let s = le_bytes_to_num(&key.slice(BLOCKSIZE, BLOCKSIZE));
     let s = FieldElement::from_secret_literal(s);
 
     let mut a = FieldElement::from_literal(0u128);
     for i in 0..m.num_chunks(BLOCKSIZE) {
         let (len, block) = m.get_chunk(BLOCKSIZE, i);
-        let block_uint = le_bytes_to_num(&block, 0, len);
+        // The following fixes the bug in Errata 5689
+        let block_uint = le_bytes_to_num(&block);
         let n = encode(block_uint, len);
+        // // The following lines mimics the bug in Errata 5689
+        // let block_uint = le_bytes_to_num(&m.slice(BLOCKSIZE*i, BLOCKSIZE*i+1));
+        // let n = encode(block_uint, 16);
         a = a + n;
         a = r * a;
     }
