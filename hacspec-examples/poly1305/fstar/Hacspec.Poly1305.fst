@@ -66,4 +66,3 @@ let poly (m_1870 : byte_seq{seq_len m_1870 < max_size_t}) (key_1871 : key_poly) 
   in
   let a_1882 = (a_1876) + (s_1875) in
   num_to_16_le_bytes (a_1882 % pow2 128)
-

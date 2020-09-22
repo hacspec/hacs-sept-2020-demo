@@ -122,12 +122,12 @@ pub fn poly(m: &ByteSeq, key: KeyPoly) -> Tag {
 
     let mut a = FieldElement::from_literal(0u128);
     for i in 0..m.num_chunks(BLOCKSIZE) {
-        let (len, block) = m.get_chunk(BLOCKSIZE, i);
         // The following fixes the bug in Errata 5689
+        let (len, block) = m.get_chunk(BLOCKSIZE, i);
         let block_uint = le_bytes_to_num(&block);
         let n = encode(block_uint, len);
         // The following lines mimics the bug in Errata 5689
-        // let block_uint = le_bytes_to_num(&m.slice(BLOCKSIZE*i, BLOCKSIZE));
+        // let block_uint = le_bytes_to_num(&m.slice(BLOCKSIZE * i, BLOCKSIZE));
         // let n = encode(block_uint, BLOCKSIZE);
         a = a + n;
         a = r * a;

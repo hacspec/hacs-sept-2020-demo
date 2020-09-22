@@ -37,40 +37,27 @@ let encode (block_uint_1862 : uint128) (len_1863 : uint_size) : field_element =
 
 let num_to_16_le_bytes (a_1866 : field_element) : tag =
   let n_v_1867 = nat_to_public_byte_seq_le (a_1866) in
-  let tag_1868 = seq_new_ blocksize in
-  let (tag_1868) =
-    foldi (usize 0) (
-        min (seq_len (tag_1868)) (seq_len #pub_uint8 (n_v_1867))) (fun (
-        i_1869,
-        (tag_1868)
-      ) ->
-      let tag_1868 =
-        array_upd tag_1868 (i_1869) (array_index (n_v_1867) (i_1869))
-      in
-      (tag_1868))
-    (tag_1868)
-  in
-  tag_1868
+  seq_from_seq (seq_slice #pub_uint8 (n_v_1867) (usize 0) (blocksize))
 
-let poly (m_1870 : byte_seq) (key_1871 : key_poly) : tag =
-  let r_1872 = le_bytes_to_num (seq_slice (key_1871) (usize 0) (blocksize)) in
-  let r_1873 = clamp (r_1872) in
-  let s_1874 = le_bytes_to_num (seq_slice (key_1871) (blocksize) (blocksize)) in
-  let s_1875 = nat_from_secret_literal (s_1874) in
-  let a_1876 = nat_from_literal (pub_u128 0x0) in
-  let (a_1876) =
-    foldi (usize 0) (seq_num_chunks (m_1870) (blocksize)) (fun (i_1877, (a_1876)
+let poly (m_1868 : byte_seq) (key_1869 : key_poly) : tag =
+  let r_1870 = le_bytes_to_num (seq_slice (key_1869) (usize 0) (blocksize)) in
+  let r_1871 = clamp (r_1870) in
+  let s_1872 = le_bytes_to_num (seq_slice (key_1869) (blocksize) (blocksize)) in
+  let s_1873 = nat_from_secret_literal (s_1872) in
+  let a_1874 = nat_from_literal (pub_u128 0x0) in
+  let (a_1874) =
+    foldi (usize 0) (seq_num_chunks (m_1868) (blocksize)) (fun (i_1875, (a_1874)
       ) ->
-      let (len_1878, block_1879) =
-        seq_get_chunk (m_1870) (blocksize) (i_1877)
+      let (len_1876, block_1877) =
+        seq_get_chunk (m_1868) (blocksize) (i_1875)
       in
-      let block_uint_1880 = le_bytes_to_num (block_1879) in
-      let n_1881 = encode (block_uint_1880) (len_1878) in
-      let a_1876 = (a_1876) + (n_1881) in
-      let a_1876 = (r_1873) * (a_1876) in
-      (a_1876))
-    (a_1876)
+      let block_uint_1878 = le_bytes_to_num (block_1877) in
+      let n_1879 = encode (block_uint_1878) (len_1876) in
+      let a_1874 = (a_1874) + (n_1879) in
+      let a_1874 = (r_1871) * (a_1874) in
+      (a_1874))
+    (a_1874)
   in
-  let a_1882 = (a_1876) + (s_1875) in
-  num_to_16_le_bytes (a_1882)
+  let a_1880 = (a_1874) + (s_1873) in
+  num_to_16_le_bytes (a_1880)
 
