@@ -82,7 +82,7 @@ public_bytes!(Tag, BLOCKSIZE);
 public_nat_mod!(
     FieldElement,
     FieldCanvas,
-    131,
+    131, // This amounts to 17 bytes
     "03fffffffffffffffffffffffffffffffb"
 );
 
@@ -110,11 +110,7 @@ pub fn num_to_16_le_bytes(a: FieldElement) -> Tag {
     // Note that a might be less than 16 byte -> zero-pad; but might also be
     // larger than Tag::capacity().
     let n_v = a.to_public_byte_seq_le();
-    let mut tag = Tag::new();
-    for i in 0..min(tag.len(), n_v.len()) {
-        tag[i] = n_v[i];
-    }
-    tag
+    Tag::from_seq(&n_v.slice(0, BLOCKSIZE))
 }
 
 pub fn poly(m: &ByteSeq, key: KeyPoly) -> Tag {
@@ -130,9 +126,9 @@ pub fn poly(m: &ByteSeq, key: KeyPoly) -> Tag {
         // The following fixes the bug in Errata 5689
         let block_uint = le_bytes_to_num(&block);
         let n = encode(block_uint, len);
-        // // The following lines mimics the bug in Errata 5689
-        // let block_uint = le_bytes_to_num(&m.slice(BLOCKSIZE*i, BLOCKSIZE*i+1));
-        // let n = encode(block_uint, 16);
+        // The following lines mimics the bug in Errata 5689
+        // let block_uint = le_bytes_to_num(&m.slice(BLOCKSIZE*i, BLOCKSIZE));
+        // let n = encode(block_uint, BLOCKSIZE);
         a = a + n;
         a = r * a;
     }
